@@ -1,25 +1,38 @@
 ﻿Public Class FrmCaptacion
     Public Shared VolumenCaptado As Double = 0
+    Public Shared VolumenTotalRegistrado As Double = 0
     Private Sub FrmCaptacion_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        ' Ajustar el menú según el tamaño del formulario
-
-
-        'DisenoResponsive.AdaptarMenu(PnlMenu, BtnMenu, Me.Width)
+        AddHandler TxtPrecipitacion.KeyPress, AddressOf EstilosApp.SoloNumeros
+        AddHandler txareacap.KeyPress, AddressOf EstilosApp.SoloNumeros
+        AddHandler TxtCoeficiente.KeyPress, AddressOf EstilosApp.SoloNumeros
 
         'Estilo:
         EstilosApp.AplicarTitulo(LblTituloFormulario)
         EstilosApp.AplicarTarjeta(PnlFrmCaptacion)
-        EstilosApp.AplicarSubtitulo(txtRegistroCap)
-        EstilosApp.AplicarSubtitulo(lblHistorial)
         EstilosApp.AplicarCampo(TxtPrecipitacion)
         EstilosApp.AplicarCampo(txareacap)
         EstilosApp.AplicarCampo(TxtCoeficiente)
         EstilosApp.AplicarTarjeta(PnlResultadoCaptacion)
         EstilosApp.AplicarBoton(BtnValor)
+        EstilosApp.AplicarSTituloCard(txtRegistroCap)
+        EstilosApp.AplicarSTituloCard(lblHistorial)
+        EstilosApp.AplicarSTituloCard(Lbltitulovolumen)
 
-        ConfigurarHistorial()
-        Me.WindowState = FormWindowState.Maximized
+        Cmbzona.Items.Clear()
 
+        Dim zonas = GestorTanques.ListaTanques _
+            .Select(Function(t) t.PoblacionAsignada) _
+            .Where(Function(z) Not String.IsNullOrWhiteSpace(z)) _
+            .Distinct() _
+            .OrderBy(Function(z) z)
+
+        For Each zona In zonas
+            Cmbzona.Items.Add(zona)
+        Next
+
+        If Cmbzona.Items.Count > 0 Then
+            Cmbzona.SelectedIndex = 0
+        End If
 
     End Sub
 
@@ -64,7 +77,7 @@
         End With
     End Sub
 
-    Private Sub BtnValor_Click(sender As Object, e As EventArgs)
+    Private Sub BtnValor_Click(sender As Object, e As EventArgs) Handles BtnValor.Click
         Dim Precipitacion As Double
         Dim area As Double
         Dim coeficiente As Double
@@ -74,6 +87,11 @@
             Globalization.CultureInfo.GetCultureInfo("es-CO")
 
         ' Convertimos los datos ingresados en números
+
+        If Cmbzona.SelectedIndex = -1 Then
+            MessageBox.Show("Debes seleccionar una zona antes de registrar la captación.")
+            Exit Sub
+        End If
 
         If Not Double.TryParse(TxtPrecipitacion.Text, Precipitacion) Then
             MessageBox.Show("Ingresa una precipitación válida.")
@@ -107,6 +125,7 @@
         volumen = Precipitacion * area * coeficiente
 
         VolumenCaptado = volumen
+        VolumenTotalRegistrado += volumen
 
         ' Mostrar resultado
 
@@ -120,6 +139,55 @@
           volumen.ToString("N2")
 )
 
+        Dim nuevoLote As New LoteTratamiento With {
+         .Codigo = "LOT-" & (LoteTratamiento.Historial.Count + 1).ToString("D3"),
+         .Zona = Cmbzona.Text,
+         .FechaCaptacion = DTFechaRegistro.Value,
+         .VolumenCaptado = volumen,
+         .FiltracionRealizada = False,
+         .SODISRealizada = False,
+         .Estado = "Sin Tratar"
+}
+
+        LoteTratamiento.Historial.Add(nuevoLote)
+
     End Sub
+
+    Private Sub ActualizarDatosZona()
+
+        If Cmbzona.SelectedIndex = -1 Then Exit Sub
+
+        Dim zonaSeleccionada As String = Cmbzona.Text
+
+        Dim tanquesZona = GestorTanques.ListaTanques _
+            .Where(Function(t) t.PoblacionAsignada = zonaSeleccionada) _
+            .ToList()
+
+        Dim cantidadTanques As Integer = tanquesZona.Count
+
+        Dim capacidadTotal As Double =
+            tanquesZona.Sum(Function(t) t.Capacidad)
+
+        LblTanues2.Text = cantidadTanques.ToString()
+
+        lblCapatotal.Text = capacidadTotal.ToString("N2") & " L"
+
+        Dim volumenTotal As Double =
+    tanquesZona.Sum(Function(t) t.VolumenAlmacenado)
+
+        Lblaratotal.Text = volumenTotal.ToString("N2") & " L"
+
+    End Sub
+
+    Private Sub CmbZona_SelectedIndexChanged(
+    sender As Object,
+    e As EventArgs
+) Handles Cmbzona.SelectedIndexChanged
+
+        ActualizarDatosZona()
+
+    End Sub
+
+
 
 End Class

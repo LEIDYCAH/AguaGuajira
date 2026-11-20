@@ -12,14 +12,14 @@ Public Class EstilosApp
     Public Shared ReadOnly Primario As Color =
     Color.FromArgb(41, 38, 79)
 
-    Public Shared ReadOnly Secundario As Color =
+    Public Shared ReadOnly Segundo As Color =
     Color.FromArgb(81, 75, 145)
 
     Public Shared ReadOnly Terciario As Color =
     Color.FromArgb(41, 38, 79)
 
     Public Shared ReadOnly Acento As Color =
-    Color.FromArgb(129, 120, 207)
+    Color.Indigo
 
     Public Shared ReadOnly Lavanda As Color =
     Color.FromArgb(181, 172, 234)
@@ -29,6 +29,10 @@ Public Class EstilosApp
 
     Public Shared ReadOnly TextoSuave As Color =
     Color.FromArgb(112, 108, 145)
+
+    Public Shared ReadOnly Divi As Color =
+        Color.FromArgb(129, 120, 207)
+
 
 
     ' Tipos de letra
@@ -65,7 +69,7 @@ Public Class EstilosApp
     Public Shared Sub AplicarTitulo(
     etiqueta As Label
 )
-        etiqueta.Font = Fuente(20, True, "Bauhaus 93")
+        etiqueta.Font = Fuente(18, True, "Bauhaus 93")
         etiqueta.ForeColor = Primario
         etiqueta.BackColor = Color.Transparent
         etiqueta.AutoSize = True
@@ -79,10 +83,23 @@ Public Class EstilosApp
     etiqueta As Label
 )
 
-        etiqueta.Font = Fuente(12)
-        etiqueta.ForeColor = Acento
+        etiqueta.Font = Fuente(12, True)
+        etiqueta.ForeColor = Segundo
         etiqueta.BackColor = Color.Transparent
         etiqueta.AutoSize = True
+
+    End Sub
+
+    Public Shared Sub AplicarSTituloCard(
+    etiqueta As Label
+)
+
+        etiqueta.Font = Fuente(12, True, "Segoe UI")
+        etiqueta.ForeColor = Divi
+        etiqueta.BackColor = Color.Transparent
+        etiqueta.AutoSize = True
+        etiqueta.AutoSize = False
+        etiqueta.TextAlign = ContentAlignment.MiddleCenter
 
     End Sub
 
@@ -106,15 +123,18 @@ Public Class EstilosApp
 
     ' Campos de texto
 
-    Public Shared Sub AplicarCampo(
-    campo As TextBox
-)
+    Public Shared Sub AplicarCampo(campo As TextBoxRedondeado)
+
         campo.Font = Fuente(10)
         campo.ForeColor = Primario
-        campo.BackColor = Blanco
-        campo.BorderStyle = BorderStyle.FixedSingle
+        campo.BackColor = Lavanda
+        campo.ColorBorde = Blanco
+        campo.RadioEsquinas = 12
+        campo.GrosorBorde = 1.5F
+        campo.Multiline = False
 
     End Sub
+
 
     'Grillas
 
@@ -174,7 +194,26 @@ Public Class EstilosApp
 
     End Sub
 
+    Public Shared Sub SoloNumeros(sender As Object, e As KeyPressEventArgs)
 
+        Dim campo As TextBox = DirectCast(sender, TextBox)
+
+        If Not Char.IsControl(e.KeyChar) AndAlso
+       Not Char.IsDigit(e.KeyChar) AndAlso
+       e.KeyChar <> "."c AndAlso
+       e.KeyChar <> ","c Then
+
+            e.Handled = True
+            Return
+        End If
+
+        If (e.KeyChar = "."c OrElse e.KeyChar = ","c) AndAlso
+       (campo.Text.Contains(".") OrElse campo.Text.Contains(",")) Then
+
+            e.Handled = True
+        End If
+
+    End Sub
 
 End Class
 

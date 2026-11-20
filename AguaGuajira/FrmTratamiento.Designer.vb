@@ -25,7 +25,7 @@ Partial Class FrmTratamiento
         LblTratamiento = New Label()
         LblSubtratamiento = New Label()
         PnlAguaRecibida = New PanelRedondeado()
-        TxtAguaRecibida = New TextBox()
+        TxtAguaRecibida = New TextBoxRedondeado()
         lblVolumenentrada = New Label()
         LblAguaRecibida = New Label()
         PnlFiltracion = New PanelRedondeado()
@@ -41,11 +41,13 @@ Partial Class FrmTratamiento
         lblResultado = New Label()
         lblvalorResultado = New Label()
         PnlRegistro = New PanelRedondeado()
-        TxtObservacionesT = New TextBox()
+        CmbLote = New ComboBox()
+        LblLote = New Label()
+        TxtObservacionesT = New TextBoxRedondeado()
         LblObservaciones = New Label()
         CmbProceso = New ComboBox()
         BtnRegistro = New Button()
-        TxtVolumen = New TextBox()
+        TxtVolumen = New TextBoxRedondeado()
         DtFechaRegistro = New DateTimePicker()
         LblProceso = New Label()
         LblVolumen = New Label()
@@ -67,11 +69,11 @@ Partial Class FrmTratamiento
         ' 
         LblTratamiento.AutoSize = True
         LblTratamiento.Font = New Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
-        LblTratamiento.Location = New Point(29, 45)
+        LblTratamiento.Location = New Point(29, 48)
         LblTratamiento.Name = "LblTratamiento"
-        LblTratamiento.Size = New Size(190, 25)
+        LblTratamiento.Size = New Size(216, 25)
         LblTratamiento.TabIndex = 0
-        LblTratamiento.Text = "Tratamiento del agua"
+        LblTratamiento.Text = "🌊 Tratamiento del agua"
         ' 
         ' LblSubtratamiento
         ' 
@@ -88,7 +90,7 @@ Partial Class FrmTratamiento
         PnlAguaRecibida.Controls.Add(TxtAguaRecibida)
         PnlAguaRecibida.Controls.Add(lblVolumenentrada)
         PnlAguaRecibida.Controls.Add(LblAguaRecibida)
-        PnlAguaRecibida.Location = New Point(40, 141)
+        PnlAguaRecibida.Location = New Point(40, 135)
         PnlAguaRecibida.Name = "PnlAguaRecibida"
         PnlAguaRecibida.Size = New Size(179, 107)
         PnlAguaRecibida.TabIndex = 2
@@ -96,15 +98,20 @@ Partial Class FrmTratamiento
         ' TxtAguaRecibida
         ' 
         TxtAguaRecibida.Anchor = AnchorStyles.Top Or AnchorStyles.Bottom Or AnchorStyles.Left Or AnchorStyles.Right
-        TxtAguaRecibida.BorderStyle = BorderStyle.None
-        TxtAguaRecibida.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        TxtAguaRecibida.Location = New Point(30, 44)
+        TxtAguaRecibida.BackColor = Color.White
+        TxtAguaRecibida.ColorBorde = Color.FromArgb(CByte(129), CByte(120), CByte(207))
+        TxtAguaRecibida.Enabled = False
+        TxtAguaRecibida.GrosorBorde = 1.5F
+        TxtAguaRecibida.Location = New Point(23, 44)
+        TxtAguaRecibida.Multiline = False
         TxtAguaRecibida.Name = "TxtAguaRecibida"
-        TxtAguaRecibida.Size = New Size(113, 26)
+        TxtAguaRecibida.Padding = New Padding(10, 5, 10, 5)
+        TxtAguaRecibida.RadioEsquinas = 12
+        TxtAguaRecibida.ScrollBars = ScrollBars.Vertical
+        TxtAguaRecibida.Size = New Size(128, 30)
         TxtAguaRecibida.TabIndex = 4
-        TxtAguaRecibida.Text = "--L"
-        TxtAguaRecibida.TextAlign = HorizontalAlignment.Center
         TxtAguaRecibida.Visible = False
+        TxtAguaRecibida.WordWrap = True
         ' 
         ' lblVolumenentrada
         ' 
@@ -117,7 +124,6 @@ Partial Class FrmTratamiento
         ' 
         ' LblAguaRecibida
         ' 
-        LblAguaRecibida.AutoSize = True
         LblAguaRecibida.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LblAguaRecibida.Location = New Point(35, 11)
         LblAguaRecibida.Name = "LblAguaRecibida"
@@ -131,7 +137,7 @@ Partial Class FrmTratamiento
         PnlFiltracion.Controls.Add(LblsubFiltracion)
         PnlFiltracion.Controls.Add(LblFiltracion)
         PnlFiltracion.Controls.Add(LblValorFiltracion)
-        PnlFiltracion.Location = New Point(243, 269)
+        PnlFiltracion.Location = New Point(240, 135)
         PnlFiltracion.Name = "PnlFiltracion"
         PnlFiltracion.Size = New Size(179, 107)
         PnlFiltracion.TabIndex = 4
@@ -147,7 +153,6 @@ Partial Class FrmTratamiento
         ' 
         ' LblFiltracion
         ' 
-        LblFiltracion.AutoSize = True
         LblFiltracion.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LblFiltracion.Location = New Point(52, 15)
         LblFiltracion.Name = "LblFiltracion"
@@ -157,7 +162,6 @@ Partial Class FrmTratamiento
         ' 
         ' LblValorFiltracion
         ' 
-        LblValorFiltracion.AutoSize = True
         LblValorFiltracion.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LblValorFiltracion.Location = New Point(43, 48)
         LblValorFiltracion.Name = "LblValorFiltracion"
@@ -171,7 +175,7 @@ Partial Class FrmTratamiento
         PnlDesinfeccion.Controls.Add(Label1)
         PnlDesinfeccion.Controls.Add(LblDesinfeccion)
         PnlDesinfeccion.Controls.Add(LblEstadosodiss)
-        PnlDesinfeccion.Location = New Point(243, 141)
+        PnlDesinfeccion.Location = New Point(240, 269)
         PnlDesinfeccion.Name = "PnlDesinfeccion"
         PnlDesinfeccion.Size = New Size(179, 107)
         PnlDesinfeccion.TabIndex = 4
@@ -187,7 +191,6 @@ Partial Class FrmTratamiento
         ' 
         ' LblDesinfeccion
         ' 
-        LblDesinfeccion.AutoSize = True
         LblDesinfeccion.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         LblDesinfeccion.Location = New Point(17, 11)
         LblDesinfeccion.Name = "LblDesinfeccion"
@@ -197,7 +200,6 @@ Partial Class FrmTratamiento
         ' 
         ' LblEstadosodiss
         ' 
-        LblEstadosodiss.AutoSize = True
         LblEstadosodiss.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         LblEstadosodiss.Location = New Point(43, 44)
         LblEstadosodiss.Name = "LblEstadosodiss"
@@ -227,7 +229,6 @@ Partial Class FrmTratamiento
         ' 
         ' lblResultado
         ' 
-        lblResultado.AutoSize = True
         lblResultado.Font = New Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, CByte(0))
         lblResultado.Location = New Point(52, 14)
         lblResultado.Name = "lblResultado"
@@ -237,7 +238,6 @@ Partial Class FrmTratamiento
         ' 
         ' lblvalorResultado
         ' 
-        lblvalorResultado.AutoSize = True
         lblvalorResultado.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
         lblvalorResultado.Location = New Point(34, 48)
         lblvalorResultado.Name = "lblvalorResultado"
@@ -248,6 +248,8 @@ Partial Class FrmTratamiento
         ' PnlRegistro
         ' 
         PnlRegistro.BackColor = Color.White
+        PnlRegistro.Controls.Add(CmbLote)
+        PnlRegistro.Controls.Add(LblLote)
         PnlRegistro.Controls.Add(TxtObservacionesT)
         PnlRegistro.Controls.Add(LblObservaciones)
         PnlRegistro.Controls.Add(CmbProceso)
@@ -263,19 +265,44 @@ Partial Class FrmTratamiento
         PnlRegistro.Size = New Size(357, 313)
         PnlRegistro.TabIndex = 6
         ' 
+        ' CmbLote
+        ' 
+        CmbLote.DropDownStyle = ComboBoxStyle.DropDownList
+        CmbLote.FormattingEnabled = True
+        CmbLote.Items.AddRange(New Object() {"Filtración lenta en arena", "Desinfección solar SODIS"})
+        CmbLote.Location = New Point(179, 66)
+        CmbLote.Name = "CmbLote"
+        CmbLote.Size = New Size(143, 23)
+        CmbLote.TabIndex = 12
+        ' 
+        ' LblLote
+        ' 
+        LblLote.AutoSize = True
+        LblLote.Location = New Point(103, 69)
+        LblLote.Name = "LblLote"
+        LblLote.Size = New Size(30, 15)
+        LblLote.TabIndex = 11
+        LblLote.Text = "Lote"
+        ' 
         ' TxtObservacionesT
         ' 
-        TxtObservacionesT.Location = New Point(136, 194)
+        TxtObservacionesT.BackColor = Color.White
+        TxtObservacionesT.ColorBorde = Color.FromArgb(CByte(129), CByte(120), CByte(207))
+        TxtObservacionesT.GrosorBorde = 1.5F
+        TxtObservacionesT.Location = New Point(136, 236)
         TxtObservacionesT.Multiline = True
         TxtObservacionesT.Name = "TxtObservacionesT"
+        TxtObservacionesT.Padding = New Padding(10, 5, 10, 5)
+        TxtObservacionesT.RadioEsquinas = 12
         TxtObservacionesT.ScrollBars = ScrollBars.Vertical
-        TxtObservacionesT.Size = New Size(186, 58)
+        TxtObservacionesT.Size = New Size(186, 31)
         TxtObservacionesT.TabIndex = 10
+        TxtObservacionesT.WordWrap = True
         ' 
         ' LblObservaciones
         ' 
         LblObservaciones.AutoSize = True
-        LblObservaciones.Location = New Point(34, 194)
+        LblObservaciones.Location = New Point(34, 236)
         LblObservaciones.Name = "LblObservaciones"
         LblObservaciones.Size = New Size(84, 15)
         LblObservaciones.TabIndex = 9
@@ -285,7 +312,7 @@ Partial Class FrmTratamiento
         ' 
         CmbProceso.FormattingEnabled = True
         CmbProceso.Items.AddRange(New Object() {"Filtración lenta en arena", "Desinfección solar SODIS"})
-        CmbProceso.Location = New Point(179, 151)
+        CmbProceso.Location = New Point(179, 197)
         CmbProceso.Name = "CmbProceso"
         CmbProceso.Size = New Size(143, 23)
         CmbProceso.TabIndex = 8
@@ -293,7 +320,7 @@ Partial Class FrmTratamiento
         ' BtnRegistro
         ' 
         BtnRegistro.BackColor = Color.White
-        BtnRegistro.Location = New Point(62, 273)
+        BtnRegistro.Location = New Point(68, 273)
         BtnRegistro.Name = "BtnRegistro"
         BtnRegistro.Size = New Size(193, 23)
         BtnRegistro.TabIndex = 7
@@ -302,15 +329,23 @@ Partial Class FrmTratamiento
         ' 
         ' TxtVolumen
         ' 
-        TxtVolumen.Location = New Point(179, 109)
+        TxtVolumen.BackColor = Color.White
+        TxtVolumen.ColorBorde = Color.FromArgb(CByte(129), CByte(120), CByte(207))
+        TxtVolumen.GrosorBorde = 1.5F
+        TxtVolumen.Location = New Point(179, 157)
+        TxtVolumen.Multiline = False
         TxtVolumen.Name = "TxtVolumen"
-        TxtVolumen.Size = New Size(143, 23)
+        TxtVolumen.Padding = New Padding(10, 5, 10, 5)
+        TxtVolumen.RadioEsquinas = 12
+        TxtVolumen.ScrollBars = ScrollBars.Vertical
+        TxtVolumen.Size = New Size(143, 28)
         TxtVolumen.TabIndex = 5
+        TxtVolumen.WordWrap = True
         ' 
         ' DtFechaRegistro
         ' 
         DtFechaRegistro.Format = DateTimePickerFormat.Short
-        DtFechaRegistro.Location = New Point(178, 70)
+        DtFechaRegistro.Location = New Point(179, 103)
         DtFechaRegistro.Name = "DtFechaRegistro"
         DtFechaRegistro.Size = New Size(144, 23)
         DtFechaRegistro.TabIndex = 4
@@ -318,7 +353,7 @@ Partial Class FrmTratamiento
         ' LblProceso
         ' 
         LblProceso.AutoSize = True
-        LblProceso.Location = New Point(34, 155)
+        LblProceso.Location = New Point(34, 200)
         LblProceso.Name = "LblProceso"
         LblProceso.Size = New Size(99, 15)
         LblProceso.TabIndex = 3
@@ -327,7 +362,7 @@ Partial Class FrmTratamiento
         ' LblVolumen
         ' 
         LblVolumen.AutoSize = True
-        LblVolumen.Location = New Point(34, 117)
+        LblVolumen.Location = New Point(34, 161)
         LblVolumen.Name = "LblVolumen"
         LblVolumen.Size = New Size(139, 15)
         LblVolumen.TabIndex = 2
@@ -336,7 +371,7 @@ Partial Class FrmTratamiento
         ' LblFechaRegistro
         ' 
         LblFechaRegistro.AutoSize = True
-        LblFechaRegistro.Location = New Point(34, 77)
+        LblFechaRegistro.Location = New Point(34, 112)
         LblFechaRegistro.Name = "LblFechaRegistro"
         LblFechaRegistro.Size = New Size(100, 15)
         LblFechaRegistro.TabIndex = 1
@@ -346,7 +381,7 @@ Partial Class FrmTratamiento
         ' 
         LblRegistrodelTratamiento.AutoSize = True
         LblRegistrodelTratamiento.Font = New Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, CByte(0))
-        LblRegistrodelTratamiento.Location = New Point(50, 24)
+        LblRegistrodelTratamiento.Location = New Point(34, 19)
         LblRegistrodelTratamiento.Name = "LblRegistrodelTratamiento"
         LblRegistrodelTratamiento.Size = New Size(228, 25)
         LblRegistrodelTratamiento.TabIndex = 0
@@ -355,13 +390,14 @@ Partial Class FrmTratamiento
         ' PnlTratamiento
         ' 
         PnlTratamiento.AutoScroll = True
+        PnlTratamiento.AutoSize = True
         PnlTratamiento.BackColor = Color.White
         PnlTratamiento.Controls.Add(LblHistoriaTratamiento)
         PnlTratamiento.Controls.Add(DgvHistorialTratamiento)
         PnlTratamiento.Location = New Point(29, 416)
         PnlTratamiento.Name = "PnlTratamiento"
         PnlTratamiento.RadioEsquinas = 18
-        PnlTratamiento.Size = New Size(783, 220)
+        PnlTratamiento.Size = New Size(783, 223)
         PnlTratamiento.TabIndex = 7
         ' 
         ' LblHistoriaTratamiento
@@ -441,16 +477,18 @@ Partial Class FrmTratamiento
     Friend WithEvents PnlRegistro As PanelRedondeado
     Friend WithEvents PnlFiltracion As PanelRedondeado
     Friend WithEvents LblRegistrodelTratamiento As Label
-    Friend WithEvents TxtVolumen As TextBox
+    Friend WithEvents TxtVolumen As TextBoxRedondeado
     Friend WithEvents DtFechaRegistro As DateTimePicker
     Friend WithEvents LblProceso As Label
     Friend WithEvents LblVolumen As Label
     Friend WithEvents LblFechaRegistro As Label
     Friend WithEvents BtnRegistro As Button
-    Friend WithEvents TxtAguaRecibida As TextBox
-    Friend WithEvents TxtObservacionesT As TextBox
+    Friend WithEvents TxtAguaRecibida As TextBoxRedondeado
+    Friend WithEvents TxtObservacionesT As TextBoxRedondeado
     Friend WithEvents LblObservaciones As Label
     Friend WithEvents CmbProceso As ComboBox
     Friend WithEvents DgvHistorialTratamiento As DataGridView
     Friend WithEvents LblHistoriaTratamiento As Label
+    Friend WithEvents CmbLote As ComboBox
+    Friend WithEvents LblLote As Label
 End Class

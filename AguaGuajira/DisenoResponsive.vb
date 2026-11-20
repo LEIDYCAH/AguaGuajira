@@ -11,24 +11,21 @@ Imports System.Windows.Forms
     menu As Panel,
     botonMenu As Button,
     anchoFormulario As Integer,
-    Optional anchoMenu As Integer = 220
+    Optional anchoMenu As Integer = 158
 )
-        If anchoFormulario <= 900 Then
 
-            menu.Visible = False
+        Dim modoCompacto As Boolean = anchoFormulario <= AnchoTablet
 
-            botonMenu.Visible = True
-            botonMenu.BringToFront()
+        menu.Visible = Not modoCompacto
+        botonMenu.Visible = modoCompacto
 
-        Else
-
-            menu.Visible = True
+        If Not modoCompacto Then
             menu.Width = anchoMenu
-
-            botonMenu.Visible = False
-
+        Else
+            botonMenu.BringToFront()
         End If
 
     End Sub
+
 
 End Class
